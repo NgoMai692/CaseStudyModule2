@@ -6,11 +6,13 @@ import manager.StaffManager;
 import model.Staff;
 import model.StaffFullTime;
 import model.StaffPartTime;
+import readandwritefile.IOFile;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class RunByAdmin {
+    private final IOFile<Staff> ioFile = new IOFile<>();
     private final AccountManager accountManager = new AccountManager();
     private final StaffManager staffManager = new StaffManager();
     private final ArrayList<Account> adminAccounts = accountManager.getAdminAccountList();
@@ -27,17 +29,16 @@ public class RunByAdmin {
     }
 
     public ArrayList<Account> getUserAccounts() {
-        return userAccounts;
+        return accountManager.getUserAccountList();
     }
 
     public ArrayList<Staff> getStaffs() {
-        return staffs;
+        return staffManager.getStaffs();
     }
 
     public void addStaffWithNewAccount() {
-        accountManager.creatUserAccount();
+        accountManager.addUserAccount();
         staffManager.addStaff();
-        accountManager.writeUserAccountList(getUserAccounts());
         System.out.println("Add successful");
     }
 
@@ -63,8 +64,11 @@ public class RunByAdmin {
     }
 
     public void displayAllStaff() {
-        for (Staff staff : staffs) {
-            System.out.println(staff);
+        int length= getStaffs().size();
+        System.out.println(length);
+        for (int i = 0; i < length; i++) {
+            System.out.println(getUserAccounts().get(i));
+            System.out.println(getStaffs().get(i));
         }
     }
 
@@ -93,7 +97,7 @@ public class RunByAdmin {
         boolean idExistCheck = false;
         int deleteIndex = -1;
         scanner.nextLine();
-        for (Staff staff : staffs) {
+        for (Staff staff : getStaffs()) {
             if (staff.getStaffId() == id) {
                 idExistCheck = true;
                 deleteIndex = 1;

@@ -3,16 +3,14 @@ package login;
 import account.Account;
 import main.RunByAdmin;
 import main.RunByUser;
-import manager.AccountManager;
-import manager.StaffManager;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Login {
     Scanner scanner = new Scanner(System.in);
-    private RunByAdmin runByAdmin = new RunByAdmin();
-    private RunByUser runByUser = new RunByUser();
+    private final RunByAdmin runByAdmin = new RunByAdmin();
+    private final RunByUser runByUser = new RunByUser();
     public Login() {
     }
 
@@ -25,7 +23,6 @@ public class Login {
         String userName = scanner.nextLine();
         System.out.println("    Enter your password:");
         String passWord = scanner.nextLine();
-
         Account loginAccount = new Account(userName, passWord);
         if (isAdminAccount(loginAccount, runByAdmin.getAdminAccounts())) {
             adminLogin();
@@ -36,18 +33,9 @@ public class Login {
         }
     }
     private void userLogin(Account loginAccount) {
-        int userChoice = -1;
+        int userChoice ;
         do {
-            System.out.println("---------------------------------");
-            System.out.println("-----Welcome Staff to System-----");
-            System.out.println("---------------------------------");
-            System.out.println("    1.Display my information");
-            System.out.println("    2.Display my salary");
-            System.out.println("    3.Change password");
-            System.out.println("    4.Update personal information");
-            System.out.println("    0.Exit");
-            System.out.println("---------------------------------");
-            System.out.println("-------Enter your choice:--------");
+            welcomeStaffScreen();   //input command: 1-info, 2-salary, 3-password change, 4-update info, 0-exit
             userChoice = scanner.nextInt();
             scanner.nextLine();
 
@@ -67,30 +55,31 @@ public class Login {
             }
         } while (userChoice != 0);
     }
+//Function to display user command: 1-info, 2-salary, 3-password change, 4-update info, 0-exit
+    private void welcomeStaffScreen() {
+        System.out.println("---------------------------------");
+        System.out.println("-----Welcome Staff to System-----");
+        System.out.println("---------------------------------");
+        System.out.println("    1.Display my information");
+        System.out.println("    2.Display my salary");
+        System.out.println("    3.Change password");
+        System.out.println("    4.Update personal information");
+        System.out.println("    0.Exit");
+        System.out.println("---------------------------------");
+        System.out.println("-------Enter your choice:--------");
+    }
 
     private void adminLogin() {
-        int adminChoice = -1;
+        int adminChoice ;
         do {
-            System.out.println("-------------------------------------------");
-            System.out.println("---Welcome Admin to Staff Manager System---");
-            System.out.println("-------------------------------------------");
-            System.out.println("    1.Search a Staff by name.");
-            System.out.println("    2.Display Staff by status.");
-            System.out.println("    3.Check Staff of status by name");
-            System.out.println("    4.Add a Staff");
-            System.out.println("    5.Update Staff status by Id");
-            System.out.println("    6.Update Staff information");
-            System.out.println("    7.Staff salary calculation");
-            System.out.println("    8.Delete Staff by id");
-            System.out.println("    0.Exit");
-            System.out.println("-------------------------------------------");
-            System.out.println("-------------Enter your choice:------------");
+            welcomeAdminScreen();   //input command: 1-All staff info, 2-Staff status, 3-Check Staff of status by name, 4-Add staff
+                                    //5-Update status, 6-Update info, 7-Salary, 8-Delete staff, 9-Search staff, 0-exit
             adminChoice = scanner.nextInt();
             scanner.nextLine();
 
             switch (adminChoice) {
                 case 1:
-
+                    runByAdmin.displayAllStaff();
                     break;
                 case 2:
                     runByAdmin.displayStaffByStaffStatus();
@@ -113,6 +102,28 @@ public class Login {
                     break;
             }
         } while (adminChoice != 0);
+    }
+
+
+    //Function to display Admin command:
+    //1-All staff info, 2-Staff status, 3-Check Staff of status by name, 4-Add staff
+    //5-Update status, 6-Update info, 7-Salary, 8-Delete staff, 9-Search staff, 0-exit
+    private void welcomeAdminScreen() {
+        System.out.println("-------------------------------------------");
+        System.out.println("---Welcome Admin to Staff Manager System---");
+        System.out.println("-------------------------------------------");
+        System.out.println("    1.Display all Staff");
+        System.out.println("    2.Display Staff by status");
+        System.out.println("    3.Check Staff of status by name");
+        System.out.println("    4.Add a Staff");
+        System.out.println("    5.Update Staff status by Id");
+        System.out.println("    6.Update Staff information");
+        System.out.println("    7.Staff salary calculation");
+        System.out.println("    8.Delete Staff by id");
+        System.out.println("    9.Search a Staff by name");
+        System.out.println("    0.Exit");
+        System.out.println("-------------------------------------------");
+        System.out.println("-------------Enter your choice:------------");
     }
 
     public boolean isAdminAccount(Account checkAccount, ArrayList<Account> adminAccountList) {

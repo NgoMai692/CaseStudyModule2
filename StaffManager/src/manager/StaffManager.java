@@ -10,9 +10,10 @@ import java.util.Scanner;
 
 public class StaffManager {
 
-    private ArrayList<Staff> staffList = new ArrayList<>();
+
     Scanner scanner = new Scanner(System.in);
     private final IOFile<Staff> ioFile = new IOFile<>();
+    private ArrayList<Staff> staffList = getStaffs();
     private final String PATHNAME_OF_STAFF_INF = "src/file/StaffList";
 
     public StaffManager() {
@@ -138,10 +139,7 @@ public class StaffManager {
     }
 
     public ArrayList<Staff> readStaffList() {
-        if (ioFile != null) {
             return ioFile.readFileData(PATHNAME_OF_STAFF_INF);
-        }
-        return null;
     }
 
     public void deleteStaff(int deleteIndex) {

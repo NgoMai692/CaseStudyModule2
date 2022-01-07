@@ -22,6 +22,6 @@ public class IOFile<E> {
         } catch (IOException | ClassNotFoundException e) {
             System.out.println(e.getMessage());
         }
-        return null;
+        return new ArrayList<>();
     }
 }
