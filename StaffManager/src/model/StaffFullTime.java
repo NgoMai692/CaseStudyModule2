@@ -1,15 +1,12 @@
 package model;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 
 public class StaffFullTime extends Staff implements Serializable {
     private double baseSalary;
     public double bonus;
     public double rankSalary;
 
-    public StaffFullTime() {
-    }
 
     public StaffFullTime(int staffId, String staffName, int staffAge, String staffGender, String staffPhoneNumber, String staffEmail, String staffAddress, String startDay, boolean staffStatus, double baseSalary, double bonus, double rankSalary) {
         super(staffId, staffName, staffAge, staffGender, staffPhoneNumber, staffEmail, staffAddress, startDay, staffStatus);
@@ -42,10 +39,11 @@ public class StaffFullTime extends Staff implements Serializable {
         this.rankSalary = rankSalary;
     }
 
-    public String display() {
-        return super.getStaffId() + "," + super.getStaffName() + "," + super.getStaffAge() + "," +
-                super.getStaffGender() + "," + super.getStaffPhoneNumber() + "," + super.getStaffEmail() +
-                super.getStaffAddress() + "," + super.getStartDay() + "," + super.isStaffStatus() +
-                baseSalary + "," + bonus + "," + rankSalary + "\n";
+    @Override
+    public String toString() {
+        return "StaffFullTime{Id=" +super.getStaffId() + ", Name=" + super.getStaffName() + ", Age= " + super.getStaffAge() +
+                ", Gender=" + super.getStaffGender() + ", PhoneNumber=" + super.getStaffPhoneNumber() + ", Email=" + super.getStaffEmail() +
+                ", Address="+super.getStaffAddress() + ", StartDay=" + super.getStartDay() + ", Status=" + super.isStaffStatus() +
+                "baseSalary=" + baseSalary +", bonus=" + bonus +", rankSalary=" + rankSalary +'}';
     }
 }

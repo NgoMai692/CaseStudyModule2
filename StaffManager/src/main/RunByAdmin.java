@@ -6,17 +6,14 @@ import manager.StaffManager;
 import model.Staff;
 import model.StaffFullTime;
 import model.StaffPartTime;
-import readandwritefile.IOFile;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class RunByAdmin {
-    private final IOFile<Staff> ioFile = new IOFile<>();
     private final AccountManager accountManager = new AccountManager();
     private final StaffManager staffManager = new StaffManager();
     private final ArrayList<Account> adminAccounts = accountManager.getAdminAccountList();
-    private final ArrayList<Account> userAccounts = accountManager.getUserAccountList();
     private final ArrayList<Staff> staffs = staffManager.getStaffs();
     Scanner scanner = new Scanner(System.in);
 

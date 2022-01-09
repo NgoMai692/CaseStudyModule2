@@ -1,7 +1,6 @@
 package model;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 
 public class Staff implements Serializable {
     private int staffId;
@@ -13,9 +12,6 @@ public class Staff implements Serializable {
     private String staffAddress;
     private String startDay;
     private boolean staffStatus;
-
-    public Staff() {
-    }
 
     public Staff(int staffId, String staffName, int staffAge, String staffGender, String staffPhoneNumber, String staffEmail, String staffAddress, String startDay, boolean staffStatus) {
         this.staffId = staffId;

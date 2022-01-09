@@ -1,7 +1,6 @@
 package manager;
 
 import account.Account;
-import model.Staff;
 import readandwritefile.IOFile;
 
 import java.util.ArrayList;
@@ -36,14 +35,28 @@ public class AccountManager {
       Account newAccount = creatUserAccount();
       this.userAccountList.add(newAccount);
       writeUserAccountList(userAccountList);
-      System.out.println(ioFile.readFileData(PATHNAME_OF_USER_ACCOUNT));
    }
    public Account creatUserAccount(){
-      System.out.println("Enter userName:");
-      String userName = scanner.nextLine();
+      String userName;
+      boolean checkUserName;
+      do{
+         System.out.println("Enter userName:");
+         userName = scanner.nextLine();
+            checkUserName = isExistUserName(userName);
+      }while (!checkUserName);
       System.out.println("Enter passWord:");
       String passWord = scanner.nextLine();
       return  new Account(userName,passWord);
+   }
+
+   private boolean isExistUserName(String userName) {
+      for (Account userAccount:userAccountList) {
+         if(userAccount.getUserName().equals(userName)){
+            System.out.println("This UserName already exists");
+            return false;
+         }
+      }
+      return true;
    }
 
    public void writeUserAccountList(ArrayList<Account> userAccountList){
@@ -57,19 +70,5 @@ public class AccountManager {
       userAccountList.remove(deleteIndex);
       writeUserAccountList(userAccountList);
    }
-   public void editUserAccount(){
-      System.out.println("Enter userName edit:");
-      String editUserName = scanner.nextLine();
-      int editIndex = -1;
-      for (int i = 0; i < userAccountList.size(); i++) {
-         if(userAccountList.get(i).getUserName().equals(editUserName)){
-            editIndex = i;
-            break;
-         }
-      }
-      Account newAccount = creatUserAccount();
-      userAccountList.remove(editIndex);
-      userAccountList.add(editIndex,newAccount);
-      (new IOFile<Account>()).writerFileData(userAccountList,PATHNAME_OF_USER_ACCOUNT);
-   }
+
 }

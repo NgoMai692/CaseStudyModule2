@@ -112,6 +112,7 @@ public class Login {
                         System.out.println("Enter Staff type");
                         System.out.println("1. Staff Full Time");
                         System.out.println("2. Staff Part Time");
+                        System.out.println("0. Exit");
                         System.out.println("Enter you choice");
                         choiceType = scanner.nextInt();
                         scanner.nextLine();

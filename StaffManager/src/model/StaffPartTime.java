@@ -1,14 +1,12 @@
 package model;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+
 
 public class StaffPartTime extends Staff implements Serializable {
     private double salaryPerHour;
     private double workingHourPerMoth;
 
-    public StaffPartTime() {
-    }
 
     public StaffPartTime(int staffId, String staffName, int staffAge, String staffGender, String staffPhoneNumber, String staffEmail, String staffAddress, String startDay, boolean staffStatus, double salaryPerHour, double workingHourPerMoth) {
         super(staffId, staffName, staffAge, staffGender, staffPhoneNumber, staffEmail, staffAddress, startDay, staffStatus);
@@ -32,10 +30,11 @@ public class StaffPartTime extends Staff implements Serializable {
         this.workingHourPerMoth = workingHourPerMoth;
     }
 
-    public String display() {
-        return super.getStaffId() + "," + super.getStaffName() + "," + super.getStaffAge() + "," +
-                super.getStaffGender() + "," + super.getStaffPhoneNumber() + "," + super.getStaffEmail() +
-                super.getStaffAddress() + "," + super.getStartDay() + "," + super.isStaffStatus() +
-                salaryPerHour + "," + workingHourPerMoth + "\n";
+    @Override
+    public String toString() {
+        return "StaffPartTime{ Id=" +super.getStaffId() + ", Name=" + super.getStaffName() + ", Age= " + super.getStaffAge() +
+                ", Gender=" + super.getStaffGender() + ", PhoneNumber=" + super.getStaffPhoneNumber() + ", Email=" + super.getStaffEmail() +
+                ", Address="+super.getStaffAddress() + ", StartDay=" + super.getStartDay() + ", Status=" + super.isStaffStatus() +
+                ", salaryPerHour=" + salaryPerHour +", workingHourPerMoth=" + workingHourPerMoth +'}';
     }
 }

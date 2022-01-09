@@ -4,6 +4,8 @@ import model.Staff;
 import model.StaffFullTime;
 import model.StaffPartTime;
 import readandwritefile.IOFile;
+import regex.RegexEmail;
+import regex.RegexPhoneNumber;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -13,14 +15,10 @@ public class StaffManager {
 
     Scanner scanner = new Scanner(System.in);
     private final IOFile<Staff> ioFile = new IOFile<>();
-    private ArrayList<Staff> staffList = getStaffs();
+    private final ArrayList<Staff> staffList = getStaffs();
     private final String PATHNAME_OF_STAFF_INF = "src/file/StaffList";
 
     public StaffManager() {
-    }
-
-    public StaffManager(ArrayList<Staff> staffs) {
-        staffList = staffs;
     }
 
     public ArrayList<Staff> getStaffs() {
@@ -31,29 +29,42 @@ public class StaffManager {
         Staff newStaff = creatStaff();
         this.staffList.add(newStaff);
         writeStaffList(staffList);
-        System.out.println(ioFile.readFileData(PATHNAME_OF_STAFF_INF));
     }
 
     public Staff creatStaff() {
-        System.out.println("Enter staff Id:");
-        int staffId = scanner.nextInt();
-        scanner.nextLine();
+        boolean checkId;
+        int staffId;
+        do{
+            System.out.println("Enter staff Id:");
+            staffId = scanner.nextInt();
+            scanner.nextLine();
+            checkId = isExistId(staffId);
+        }while (!checkId);
         System.out.println("Enter staff name:");
         String staffName = scanner.nextLine();
         System.out.println("Enter staff age:");
         int staffAge = scanner.nextInt();
         scanner.nextLine();
         String gender = setGender();
-        System.out.println("Enter staff phone number :");
-        String phoneNumber = scanner.nextLine();
-        System.out.println("Enter staff email:");
-        String email = scanner.nextLine();
+        boolean checkPhoneNumber;
+        String phoneNumber;
+        do {
+            System.out.println("Enter staff phone number :");
+            phoneNumber = scanner.nextLine();
+            checkPhoneNumber = RegexPhoneNumber.validate(phoneNumber);
+        }while (!checkPhoneNumber);
+        boolean checkEmail;
+        String email;
+        do {
+            System.out.println("Enter staff email:");
+            email = scanner.nextLine();
+            checkEmail = RegexEmail.validate(email);
+        }while (!checkEmail);
         System.out.println("Enter staff address:");
         String address = scanner.nextLine();
         System.out.println("Enter staff start day:");
         String startDay = scanner.nextLine();
         boolean status = setStaffStatus();
-
         String staffType = setStaffType();
         if (staffType.equals("Full time")) {
             System.out.println("Enter staff base salary");
@@ -74,9 +85,17 @@ public class StaffManager {
         }
 
     }
-
+    private boolean isExistId(int staffId) {
+        for (Staff staff: staffList) {
+            if(staff.getStaffId()==staffId){
+                System.out.println("This Id already exists");
+                return false;
+            }
+        }
+        return true;
+    }
     private String setStaffType() {
-        int choiceType = -1;
+        int choiceType ;
         do {
             System.out.println("Enter staff type:");
             System.out.println("1.Full time");
@@ -96,7 +115,7 @@ public class StaffManager {
     }
 
     private Boolean setStaffStatus() {
-        int choiceStatus = -1;
+        int choiceStatus;
         do {
             System.out.println("Choice staff status:");
             System.out.println("1.Working");
@@ -121,7 +140,7 @@ public class StaffManager {
         System.out.println("2.Male");
         System.out.println("3.Other");
         System.out.println("Enter your choice:");
-        String gender = "";
+        String gender ;
         int choiceGender = scanner.nextInt();
         scanner.nextLine();
         if (choiceGender == 1) {
@@ -159,7 +178,7 @@ public class StaffManager {
 
     public ArrayList<Staff> displayStaffByStaffStatus() {
         ArrayList<Staff> displayList = new ArrayList<>();
-        int choice = -1;
+        int choice ;
         do {
             System.out.println("Enter Status to display");
             System.out.println("1.Working");
@@ -191,10 +210,9 @@ public class StaffManager {
         for (Staff staff : getStaffs()) {
             if (staff.getStaffName().equals(name)) {
                 if (staff.isStaffStatus()) {
-                    System.out.println("This Staff is working");
-                    ;
+                    System.out.println("Staff "+name+(" Id ")+staff.getStaffId()+" is working");
                 } else {
-                    System.out.println("This Staff was retired");
+                    System.out.println("Staff "+name+(" Id ")+staff.getStaffId()+" was retired");
                 }
             }
         }
@@ -307,6 +325,7 @@ public class StaffManager {
         System.out.println("Total all Staff Salary: "+ totalSalary);
         for (int i = 0; i < length; i++) {
             System.out.printf("Staff Id: %s has salary: %s",staffList.get(i).getStaffId(),salaryList.get(i));
+            System.out.println();
         }
     }
 }
