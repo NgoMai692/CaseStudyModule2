@@ -112,4 +112,20 @@ public class RunByAdmin {
         return "This id does not exist";
 
     }
+    public void findStaffByName(){
+        System.out.println("Enter the name to search ");
+        String name = scanner.nextLine();
+        ArrayList<Staff> findList = staffManager.findStaffByName(name);
+        for (Staff staff:findList) {
+            System.out.println(staff);
+        }
+    }
+
+    public void updateStaffInfByAdmin(){
+        staffManager.updateStaffInformation();
+    }
+
+    public void calculatorStaffSalary(){
+        staffManager.calculatorStaffSalary();
+    }
 }

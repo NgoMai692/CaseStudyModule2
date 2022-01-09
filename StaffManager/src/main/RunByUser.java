@@ -18,8 +18,6 @@ public class RunByUser {
     private final StaffManager staffManager = new StaffManager();
     private final ArrayList<Account> userAccounts = accountManager.readUserAccountList();
     private final ArrayList<Staff> staffs = staffManager.readStaffList();
-    private final String PATHNAME_OF_USER_ACCOUNT = "src/file/UserAccount";
-    private final String PATHNAME_OF_STAFF_INF = "src/file/StaffList";
     Scanner scanner = new Scanner(System.in);
 
     public RunByUser() {
@@ -59,6 +57,7 @@ public class RunByUser {
             System.out.println("Enter new passWord please!");
             String newPassWord = scanner.nextLine();
             userAccounts.get(changeIndex).setPassWord(newPassWord);
+            String PATHNAME_OF_USER_ACCOUNT = "src/file/UserAccount";
             ioFile.writerFileData(userAccounts, PATHNAME_OF_USER_ACCOUNT);
             System.out.println(accountManager.readUserAccountList());
             System.out.println("Change password successful");
@@ -69,7 +68,7 @@ public class RunByUser {
 
     public void updatePersonalInf(Account updateAccount) {
         int updateIndex = getIndex(updateAccount);
-        int choice = -1;
+        int choice ;
         do {
             System.out.println("-----Enter new information-----");
             System.out.println("-------------------------------");
@@ -118,7 +117,8 @@ public class RunByUser {
                     break;
             }
         } while (choice != 0);
-        ioFile1.writerFileData(staffs,PATHNAME_OF_USER_ACCOUNT);
+        String PATHNAME_OF_STAFF_INF = "src/file/StaffList";
+        ioFile1.writerFileData(staffs, PATHNAME_OF_STAFF_INF);
     }
 
 }

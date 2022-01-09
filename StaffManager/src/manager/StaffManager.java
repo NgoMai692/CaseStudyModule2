@@ -139,7 +139,7 @@ public class StaffManager {
     }
 
     public ArrayList<Staff> readStaffList() {
-            return ioFile.readFileData(PATHNAME_OF_STAFF_INF);
+        return ioFile.readFileData(PATHNAME_OF_STAFF_INF);
     }
 
     public void deleteStaff(int deleteIndex) {
@@ -183,7 +183,7 @@ public class StaffManager {
                     }
                     return displayList;
             }
-        } while (choice !=0);
+        } while (choice != 0);
         return displayList;
     }
 
@@ -191,7 +191,8 @@ public class StaffManager {
         for (Staff staff : getStaffs()) {
             if (staff.getStaffName().equals(name)) {
                 if (staff.isStaffStatus()) {
-                    System.out.println("This Staff is working");;
+                    System.out.println("This Staff is working");
+                    ;
                 } else {
                     System.out.println("This Staff was retired");
                 }
@@ -222,4 +223,90 @@ public class StaffManager {
         }
     }
 
+    public void updateStaffInformation() {
+        System.out.println("Enter Staff id to update information");
+        int updateId = scanner.nextInt();
+        int updateIndex = -1;
+        boolean checkId = false;
+        for (int i = 0; i < staffList.size(); i++) {
+            if (staffList.get(i).getStaffId() == updateId) {
+                updateId = i;
+                checkId = true;
+            }
+        }
+        if(checkId){
+            int choice;
+            do {
+                System.out.println("-----Enter new information-----");
+                System.out.println("-------------------------------");
+                System.out.println("-------Enter you choice--------");
+                System.out.println("    1.Change staff id");
+                System.out.println("    2.Change staff Start day");
+                System.out.println("    3.Change staff salary");
+                System.out.println("    0.Exit");
+                System.out.println("-------------------------------");
+                choice = scanner.nextInt();
+                scanner.nextLine();
+
+                switch (choice) {
+                    case 1:
+                        System.out.println("Enter new id:");
+                        int newId = scanner.nextInt();
+                        scanner.nextLine();
+                        staffList.get(updateIndex).setStaffId(newId);
+                        break;
+                    case 2:
+                        System.out.println("Enter new start day:");
+                        String startDay = scanner.nextLine();
+                        scanner.nextLine();
+                        staffList.get(updateIndex).setStartDay(startDay);
+                        break;
+                    case 3:
+                        if(staffList.get(updateIndex) instanceof StaffFullTime){
+                            System.out.println("Enter new base salary");
+                            double newBaseSalary = scanner.nextDouble();
+                            ((StaffFullTime) staffList.get(updateIndex)).setBaseSalary(newBaseSalary);
+                            System.out.println("Enter new bonus");
+                            double newBonus = scanner.nextDouble();
+                            ((StaffFullTime) staffList.get(updateIndex)).setBonus(newBonus);
+                            System.out.println("Enter new rank salary");
+                            double newRankSalary = scanner.nextDouble();
+                            ((StaffFullTime) staffList.get(updateIndex)).setRankSalary(newRankSalary);
+                        }else if(staffList.get(updateIndex) instanceof StaffPartTime){
+                            System.out.println("Enter new salary per hour");
+                            double newSalaryPerHour = scanner.nextDouble();
+                            ((StaffPartTime) staffList.get(updateIndex)).setSalaryPerHour(newSalaryPerHour);
+                            System.out.println("Enter new working hour per month");
+                            double newWorkingHourPerMonth = scanner.nextDouble();
+                            scanner.nextLine();
+                            ((StaffPartTime) staffList.get(updateIndex)).setWorkingHourPerMoth(newWorkingHourPerMonth);
+                        }
+                        break;
+                }
+            } while (choice != 0);
+            writeStaffList(staffList);
+            System.out.println("Update information successful");
+        }
+    }
+
+    public void calculatorStaffSalary(){
+        ArrayList<Double> salaryList= new ArrayList<>();
+        for (Staff staff:staffList) {
+            if (staff instanceof StaffFullTime){
+                salaryList.add(((StaffFullTime) staff).getBaseSalary()*((StaffFullTime) staff).getRankSalary()+((StaffFullTime) staff).getBonus());
+            }else if(staff instanceof StaffPartTime){
+                salaryList.add(((StaffPartTime) staff).getSalaryPerHour()*((StaffPartTime) staff).getWorkingHourPerMoth());
+            }
+        }
+
+        int length = salaryList.size();
+        double totalSalary = 0;
+        for (Double aDouble : salaryList) {
+            totalSalary += aDouble;
+        }
+        System.out.println("Total all Staff Salary: "+ totalSalary);
+        for (int i = 0; i < length; i++) {
+            System.out.printf("Staff Id: %s has salary: %s",staffList.get(i).getStaffId(),salaryList.get(i));
+        }
+    }
 }

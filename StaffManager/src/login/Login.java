@@ -94,16 +94,41 @@ public class Login {
                     runByAdmin.updateStatusById();
                     break;
                 case 6:
+                    runByAdmin.updateStaffInfByAdmin();
                     break;
                 case 7:
+                    runByAdmin.calculatorStaffSalary();
                     break;
                 case 8:
                     System.out.println(runByAdmin.deleteStaffById());
                     break;
+                case 9:
+                    runByAdmin.findStaffByName();
+                    break;
+                case 10:
+                    int choiceType;
+                    do{
+                        System.out.println("----------------------");
+                        System.out.println("Enter Staff type");
+                        System.out.println("1. Staff Full Time");
+                        System.out.println("2. Staff Part Time");
+                        System.out.println("Enter you choice");
+                        choiceType = scanner.nextInt();
+                        scanner.nextLine();
+                        switch (choiceType){
+                            case 1:
+                                runByAdmin.displayAllStaffByStaffType(1);
+                                break;
+                            case 2:
+                                runByAdmin.displayAllStaffByStaffType(2);
+                                break;
+                        }
+                    }while (choiceType!=0);
+
+                    break;
             }
         } while (adminChoice != 0);
     }
-
 
     //Function to display Admin command:
     //1-All staff info, 2-Staff status, 3-Check Staff of status by name, 4-Add staff
@@ -121,6 +146,7 @@ public class Login {
         System.out.println("    7.Staff salary calculation");
         System.out.println("    8.Delete Staff by id");
         System.out.println("    9.Search a Staff by name");
+        System.out.println("    10.Display Staff by Staff type");
         System.out.println("    0.Exit");
         System.out.println("-------------------------------------------");
         System.out.println("-------------Enter your choice:------------");
